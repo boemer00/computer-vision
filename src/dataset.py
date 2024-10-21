@@ -1,7 +1,8 @@
 import os
+
+import torch
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
-import torch
 
 
 root_dir = os.path.join(os.path.dirname(__file__), "..", "raw_data", "training_set")
