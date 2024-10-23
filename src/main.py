@@ -1,22 +1,17 @@
 import os
 import torch
-from dataset import get_data_loaders
-from initialize_model import initialize_model
-from train_model import train_model
-from plot import plot_history
+from dataset import preprocess_data
 
+def predict(model, image):
+    model.eval()
+    with torch.no_grad():
+        # preprocess image
+        image = preprocess_data(image)
 
-if __name__ == "__main__":
-    root_dir = os.path.join(os.path.dirname(__file__), "..", "raw_data", "training_set")
+        output = model(image.unsqueeze(0))
+        _, predicted_class = torch.max(output, 1)
 
-    # Load data
-    train_loader, val_loader = get_data_loaders(root_dir, batch_size=16)
+        class_names = {'no-ship': 0, 'ship': 1}
+        predicted_label = class_names[predicted_class.item()]
 
-    # Initialize model
-    model = initialize_model(num_classes=2)
-
-    # Train model
-    history =train_model(model, train_loader, val_loader, epochs=5)
-
-    # Plot training history
-    plot_history(history)
+    return predicted_label
