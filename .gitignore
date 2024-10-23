@@ -161,3 +161,4 @@ mlflow.db
 mlartifacts/
 mlflow-db/
 mlruns/
+*.joblib
