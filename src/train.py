@@ -11,7 +11,7 @@ from plot import plot_history
 from params import MLFLOW_URI, EXPERIMENT_NAME, PATH_TO_LOCAL_MODEL, EPOCHS, LEARNING_RATE, BATCH_SIZE
 
 
-def train_model(model, train_loader, val_loader, epochs=10, lr=0.001):
+def train_model(model, train_loader, val_loader, epochs=EPOCHS, lr=LEARNING_RATE):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     print(f'Using device: {device}')
     model = model.to(device)
@@ -126,8 +126,8 @@ if __name__ == "__main__":
         # log the model
         mlflow.pytorch.log_model(model, "model")
 
-        # # save the model locally
-        # torch.save(model.state_dict(), PATH_TO_LOCAL_MODEL)
+        # save the model locally
+        torch.save(model.state_dict(), PATH_TO_LOCAL_MODEL)
 
     # plot training history
     plot_history(history)
